@@ -2,7 +2,6 @@ import React from 'react';
 import Title from '../templates/Title';
 import HeroSmall from '../templates/HeroSmall';
 import {Link} from 'react-router-dom';
-
 import styled from 'styled-components';
 
 

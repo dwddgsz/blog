@@ -7,7 +7,7 @@ import Details from './components/Details';
 import Footer from './components/Footer';
 import Sign from './components/Sign';
 import styled from 'styled-components';
-import Dashbord from './components/templates/Dashbord';
+import Start from './components/dashboard/Start';
 import Profile from './components/dashboard/Profile'
 import Create from './components/dashboard/Create'
 import Accept from './components/dashboard/Accept'
@@ -27,7 +27,7 @@ const App = () => {
                     <Route path="/dashboard-profile" component={Profile} />
                     <Route path="/dashboard-create" component={Create} />
                     <Route path="/dashboard-accept" component={Accept} />
-                    <Route path="/dashboard" component={Dashbord} />
+                    <Route path="/dashboard" component={Start} />
                     <Route path="/sign" exact component={Sign}/>
                     <Route path="/" exact component={Home}/>
                     <Route component={PageNotFound}/>
