@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {auth} from '../firebase'
+import history from '../history'
 
 const NavbarWrapper = styled.div`
     .nav {
@@ -29,6 +31,12 @@ const NavbarWrapper = styled.div`
     font-size: 1.5rem;
     color: var(--white);
     text-shadow: 1px 1px 1px black;
+    &--button {
+        border:none;
+        outline:none;
+        background-color:transparent;
+        cursor:pointer;
+    }
     }   
     &.scrolled{
     background-color: var(--black);
@@ -55,14 +63,31 @@ class Navbar extends React.Component {
     };
 }
 
+    handleSignOut = () => {
+        auth.signOut()
+        .then(()=>{
+            history.push('/sign')
+        })
+    }
+
     render(){
         return (
         <NavbarWrapper>
             <nav className={this.state.isScrolled? 'nav scrolled' : 'nav'}>
                 <h1 className="nav__logo"><Link to="/">Home</Link></h1>
                 <ul className="nav__items">
+                    {this.props.isSignedIn ? 
+                    (
+                    <>
                     <li className="nav__item"><Link to="/dashboard" className="nav__link">Dashboard</Link></li>
+                    <li className="nav__item" onClick={this.handleSignOut}><button to="/sign" className="nav__link nav__link--button">Sign Out</button></li>
+                    </>
+                    )
+                    :
+                    (
                     <li className="nav__item"><Link to="/sign" className="nav__link">Sign In</Link></li>
+                    )
+                    }
                 </ul>
             </nav>
         </NavbarWrapper>

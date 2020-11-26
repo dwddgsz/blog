@@ -15,26 +15,42 @@ import AlreadySignedIn from './components/errors/AlreadySignedIn';
 import PermissionRequired from './components/errors/PermissionRequired';
 import PageNotFound from './components/errors/PageNotFound';
 import RecordNotFound from './components/errors/RecordNotFound';
+import {auth} from './firebase'
 
-
-
-const App = () => {
-    return (
+class App extends React.Component {
+    
+    componentDidMount() {
+        auth.onAuthStateChanged((user)=>{
+            if(user) {
+                this.setState({isSignedIn:true,user})
+            }else {
+                this.setState({isSignedIn:false})
+            }
+        })
+    }
+    state = {
+        isSignedIn: false,
+        userData: null,
+    }
+    render(){
+        let isSignedIn = this.state.isSignedIn;
+        return (
         <Router history={history}>
-                <Navbar/>
+                <Navbar isSignedIn={isSignedIn}/>
                 <Switch>
                     <Route path="/details/:id" component={Details} />
-                    <Route path="/dashboard-profile" component={Profile} />
-                    <Route path="/dashboard-create" component={Create} />
-                    <Route path="/dashboard-accept" component={Accept} />
-                    <Route path="/dashboard" component={Start} />
-                    <Route path="/sign" exact component={Sign}/>
+                    <Route path="/dashboard-profile" component={isSignedIn?Profile:PermissionRequired} />
+                    <Route path="/dashboard-create" component={isSignedIn?Create:PermissionRequired} />
+                    <Route path="/dashboard-accept" component={isSignedIn?Accept:PermissionRequired} />
+                    <Route path="/dashboard" component={isSignedIn?Start:PermissionRequired} />
+                    <Route path="/sign" component={isSignedIn?AlreadySignedIn:Sign}/>
                     <Route path="/" exact component={Home}/>
                     <Route component={PageNotFound}/>
                 </Switch>
                 <Footer/>
         </Router>
     )
+    }
 }
 
 export default App

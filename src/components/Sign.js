@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
 import HeroSmall from './templates/HeroSmall';
 import Button from './templates/Button';
+import history from '../history'
+import {auth,db} from '../firebase'
 
 const FormWrapper = styled.div`
 min-height:100vh;
@@ -79,19 +80,20 @@ color: var(--black);
     opacity:.6;
 }
 }
-.form__errorMessage {
-    font-size:1.4rem;
+.form__error {
+    font-size:1.1rem;
     text-align:center;
-    color: red;
 }
-.validation-rules {
+.form__error-list {
     text-align:center;
     font-size:1.3rem;
     li {
         &:first-child{
-            padding-bottom:5px;
+            padding-bottom:7px;
+            font-weight:bold;
         }
-        padding-bottom:3px;
+        padding-bottom:5px;
+        font-size:1.1rem;
     }
 }
 }
@@ -99,30 +101,115 @@ color: var(--black);
 
 class Login extends React.Component {
     state = {
-        formData: {
+    formData: {
         nickname:'',
         email:'',
         password:'',
+        },
+    errors: {
+        emailError:false,
+        nicknameOrPasswordError:false,
+        signInEmailError:'',
+        signInPasswordError:'',
     },
     signIn:true,
-    }
+    };
 
     handleOnChange = (e) =>{
         this.setState((prevState)=>{
-            return {...prevState,formData: {
+            return {formData: {
                 ...prevState.formData,
                 [e.target.name]: e.target.value,
-            }}
+                    },
+                    errors: {
+                    emailError:false,
+                    nicknameOrPasswordError:false,
+                    signInEmailError:'',
+                    signInPasswordError:'',
+                    }
+                }
         })
     }
 
     handleOnSubmit = (e) => {
+    // SIGNING UP
         e.preventDefault();
-        console.log(this.state);
+        if (!this.state.signIn) {
+        const regex = /^((?!.*[\s])(?=.*[A-Z])(?=.*\d).{8,15})/
+        if (!this.state.formData.password.match(regex) || !this.state.formData.nickname.match(regex)) {
+            this.setState(prevState=>{return {errors: {...prevState.errors,nicknameOrPasswordError: true,}}})
+            return;
+        }
+        auth
+        .createUserWithEmailAndPassword(this.state.formData.email,this.state.formData.password)
+        .then((data)=>{
+            db.collection('users').doc(data.user.uid).set({
+                ...this.state.formData,
+                id:data.user.uid,
+                role:2
+            })
+        })
+        .then(()=>{
+            this.setState({formData: {
+                nickname:'',
+                email:'',
+                password:'',
+            }, errors: {
+                emailError:false,
+                nicknameOrPasswordError:false,
+                }})
+        })
+        .then(()=>{
+            history.push('/dashboard');
+        })
+        .catch(error=>{
+            this.setState(prevState=>{return {errors: {...prevState.errors,emailError: true,}}})
+        })
+    }
+    // SIGNING IN
+    else {
+        auth
+        .signInWithEmailAndPassword(this.state.formData.email,this.state.formData.password)
+        .then((data)=>{
+            this.setState({formData: {
+                email:'',
+                password:'',
+            }, errors: {
+                signInEmailError:'',
+                signInPasswordError:'',
+                }})
+            history.push('/');
+        })
+        .catch(error=>{
+            switch(error.code){
+                case 'auth/user-disabled':
+                case 'auth/user-not-found':
+                    this.setState(prevState=>{return {errors: {...prevState.errors,signInEmailError: error.message,}}})
+                break;
+                case 'auth/wrong-password':
+                    this.setState(prevState=>{return {errors: {...prevState.errors,signInPasswordError: error.message,}}})
+                break;
+                default:
+                return;
+            }
+        })
+    }
     }
 
     changeType = () => {
-        this.setState(prevState=>{return{...prevState,signIn:!prevState.signIn,}})
+        this.setState(prevState=>{return{signIn:!prevState.signIn,}})
+        this.setState(
+        {formData: {
+            nickname:'',
+            email:'',
+            password:'',
+        }, 
+        errors: {
+            signInEmailError:'',
+            signInPasswordError:'',
+            emailError:false,
+            nicknameOrPasswordError:false,
+            }})
     }
 
 
@@ -142,20 +229,28 @@ class Login extends React.Component {
             <div className="form__field">
                     <label htmlFor="nickname">Nickname</label>
                     <input type="text" id="nickname" name="nickname" value={this.state.formData.nickname} onChange={this.handleOnChange}></input>
-                        <p></p>
                 </div>
                 :
                 null}
                 <div className="form__field">
                     <label htmlFor="signInEmail">Email</label>
                     <input type="email" id="signInEmail" name="email" value={this.state.formData.email} onChange={this.handleOnChange}></input>
-                        <p></p>
                 </div> 
                 <div className="form__field">
                     <label htmlFor="signInPassword">Password</label>
                     <input type="password" id="signInPassword" name="password" value={this.state.formData.password} onChange={this.handleOnChange}></input>
-    <p></p>
                 </div>
+           <p className="form__error">{this.state.errors.emailError? 'Invalid Email':null}</p>
+           <p className="form__error">{this.state.errors.signInEmailError}</p>
+           <p className="form__error">{this.state.errors.signInPasswordError}</p>
+           {this.state.errors.nicknameOrPasswordError?  (<ul className="form__error-list">
+                    <li>Password and Nickname:</li>
+                    <li>minimun length - 8 characters</li>
+                    <li>maximum length - 15 characters</li>
+                    <li>must containt at least one capital letter</li>
+                    <li>must contain at least one digit</li>
+                    <li>shall not contain white spaces</li>
+                </ul>):null}
            <Button size="large">{this.state.signIn? 'Sign In' :'Sign Up'}</Button>
             </form>
             <p className="form__change-text">
