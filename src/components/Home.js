@@ -2,6 +2,8 @@ import React from 'react';
 import styled,{keyframes} from 'styled-components';
 import Title from './templates/Title';
 import PostsList from './templates/PostsList';
+import {db} from '../firebase'
+import {firebaseLooper} from '../firebase/firebaseLooper'
 
 
 
@@ -71,26 +73,46 @@ const HomeWrapper = styled.div`
 }
 `
 
-const Home = () => {
-    const scrollToPosts = () => {
+class Home extends React.Component {
+    state = {
+        convertedData:{}
+    }
+
+    componentDidMount() {
+        db
+        .collection('posts')
+        .where('accepted','==',true)
+        .get()
+        .then((snapshot)=>{
+            const convertedData = firebaseLooper(snapshot);
+            this.setState({convertedData});
+        })
+        .then(()=>{
+            console.log(this.state);
+        })
+    }
+
+    scrollToPosts = () => {
         window.scrollTo({
             top: window.innerHeight,
             left: 0,
             behavior: 'smooth'
         });
     }
-    return (
+    render() {
+        return (
         <HomeWrapper>
         <header className="hero">
         <h2 className="hero__title">Fear is your best friend</h2>
-        <button className="hero__button" onClick={scrollToPosts}>
+        <button className="hero__button" onClick={this.scrollToPosts}>
         <div className="hero__arrow"></div>
         </button>
     </header>
         <Title>Posts</Title>
-        <PostsList />
+        <PostsList convertedData={this.state.convertedData}/>
         </HomeWrapper>
     )
+        }
 }
 
 export default Home
