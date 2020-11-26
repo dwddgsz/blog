@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import Button from '../templates/Button';
+import history from '../../history'
 
 
 const PostCardWrapper =  styled.li`
@@ -13,19 +14,10 @@ width: 300px;
    .post {
     &__img {
     width: 100%;
+    filter:brightness(65%);
     }
 
-&::after {
-    display: block;
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, .2) 0%, rgba(0, 0, 0, .2) 6%, rgba(0, 0, 0, .6) 80%, rgba(0, 0, 0, .8) 100%);
-    z-index: 2;
-}
+
 
 &__title {
     font-size:1.6rem;
@@ -47,14 +39,18 @@ width: 300px;
 `
 
 
-const Card = () => {
+const Card = ({element}) => {
+    const handleOnClick = (e) =>{
+        const id = e.target.parentElement.getAttribute('data-id');
+        history.push(`/details/${id}`)
+    }
     return (
-        <PostCardWrapper>
-                <img src="https://images.pexels.com/photos/992731/pexels-photo-992731.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" className="post__img"></img>
-                <h4 className="post__title">hello</h4>
-                <p className="post__author">By <span>hello</span></p>
-                <span className="post__date">25-02-2012</span>
-                <Button>Read more</Button>
+        <PostCardWrapper data-id={element.id}>
+                <img src={element.image} className="post__img"></img>
+                <h4 className="post__title">{element.title}</h4>
+                <p className="post__author">By <span>{element.by}</span></p>
+                <span className="post__date">{element.title}</span>
+                <Button handleOnClick={handleOnClick}>Read more</Button>
         </PostCardWrapper>
     )
 }

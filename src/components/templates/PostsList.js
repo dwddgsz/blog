@@ -10,15 +10,20 @@ max-width: 1200px;
     justify-content: center;
 `
 
-const PostsList = () => {
+const PostsList = ({convertedData}) => {
+    
+    const renderPosts = () => {
+    if (Object.keys(convertedData).length === 0 && convertedData.constructor === Object){
+        return;
+    }
+      else {  
+        return convertedData.map((element)=>{
+        return <PostCard key={element.id} element={element}/>
+        })}}
+
     return (
         <PostsListWrapper>
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
+            {renderPosts()}
         </PostsListWrapper>
     )
 }
