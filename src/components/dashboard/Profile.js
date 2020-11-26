@@ -36,7 +36,7 @@ class Profile extends React.Component {
 
     handleOnChange = (e) =>{
         this.setState((prevState)=>{
-            return {...prevState,formData: {
+            return {formData: {
                 ...prevState.formData,
                 [e.target.name]: e.target.value,
             }}
@@ -46,6 +46,7 @@ class Profile extends React.Component {
     handleOnSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);
+
     }
 
     render() {
