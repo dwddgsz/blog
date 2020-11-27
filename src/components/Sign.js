@@ -6,7 +6,7 @@ import history from '../history'
 import {auth,db} from '../firebase'
 
 const FormWrapper = styled.div`
-min-height:100vh;
+min-height:700px;
 max-height:1000px;
 display:flex;
 justify-content: center;

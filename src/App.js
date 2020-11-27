@@ -17,6 +17,8 @@ import PageNotFound from './components/errors/PageNotFound';
 import RecordNotFound from './components/errors/RecordNotFound';
 import {auth,db} from './firebase'
 
+
+
 class App extends React.Component {
     state = {
         isSignedIn: false,
@@ -42,6 +44,7 @@ class App extends React.Component {
     render(){
         let {isSignedIn,userData} = this.state;
         return (
+
         <Router history={history}>
                 <Navbar isSignedIn={isSignedIn} userData={userData}/>
                 <Switch>
@@ -76,7 +79,7 @@ class App extends React.Component {
                     }}/>
                     <Route path="/sign" component={isSignedIn?AlreadySignedIn:Sign}/>
                  <Route path="/" render={()=>{
-                            return <Home isSignedIn={isSignedIn} userData={userData}/>}}/>
+                     return <Home isSignedIn={isSignedIn} userData={userData}/>}}/>
                     <Route component={PageNotFound}/>
                 </Switch>
                 <Footer/>

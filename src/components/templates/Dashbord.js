@@ -7,8 +7,7 @@ import styled from 'styled-components';
 
 const DashboardWrapper = styled.div`
 max-width:1200px;
-min-height:50vh;
-max-height:1000px;
+min-height:600px;
 margin:0 auto;
 .dashboard {
     &__items {

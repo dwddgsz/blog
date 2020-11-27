@@ -8,8 +8,7 @@ import styled from 'styled-components';
 const ErrorWrapper = styled.section`
 max-width:1200px;
 margin:0 auto;
-min-height:60vh;
-max-height:900px;
+min-height:600px;
 `
 
 

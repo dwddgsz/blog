@@ -9,7 +9,7 @@ const DetailsWrapper = styled.article`
 &__text-container {
     margin:0 auto;
     max-width:1200px;
-    min-height:60vh;
+    min-height:600px;
 }
 &__author {
 padding: 0 10px 30px;
