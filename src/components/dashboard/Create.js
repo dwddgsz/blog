@@ -2,6 +2,9 @@ import React from 'react';
 import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
 import Button from '../templates/Button';
+import {db} from '../../firebase';
+import firebase from '../../firebase';
+import history from '../../history'
 
 const CreateWrapper = styled.form`
 display:flex;
@@ -32,8 +35,9 @@ class Create extends React.Component {
         formData: {
         title:'',
         content:'',
-        imageLink:'',
-    }
+        image:'',
+    },
+    message:'',
     }
 
     handleOnChange = (e) =>{
@@ -41,13 +45,38 @@ class Create extends React.Component {
             return {formData: {
                 ...prevState.formData,
                 [e.target.name]: e.target.value,
-            }}
+            },
+        message:'',
+    }
         })
     }
 
     handleOnSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        if (this.state.formData.title==='' || this.state.formData.content==='' || this.state.formData.imageLink==='') {
+            this.setState({message:'Field cannot be empty'});
+            return;
+        }
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        db
+        .collection('posts')
+        .doc()
+        .set({
+            ...this.state.formData,
+            createdAt: timestamp,
+            by: this.props.userData.nickname,
+            accepted:false,
+        })
+        .then(()=>{
+            this.setState({
+                formData: {
+                    title:'',
+                    content:'',
+                    image:'',
+                },
+                message:'Succes! Now Your post need to be accepted',
+            })
+        })
     }
 
     render() {
@@ -66,9 +95,10 @@ class Create extends React.Component {
                 </div>
                 <div className="dashboard__field">
                     <label htmlFor="imageLink">Image Path</label>
-                    <textarea id="imageLink" name="imageLink" value={this.state.formData.imageLink} onChange={this.handleOnChange}></textarea>
+                    <textarea id="imageLink" name="image" value={this.state.formData.image} onChange={this.handleOnChange}></textarea>
     <p></p>
                 </div>
+        <p className="message">{this.state.message}</p>
         <Button size="large">Submit</Button>
 
 
