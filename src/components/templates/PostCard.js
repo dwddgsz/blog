@@ -14,6 +14,7 @@ width: 300px;
    .post {
     &__img {
     width: 100%;
+    height:180px;
     filter:brightness(65%);
     }
 
@@ -46,10 +47,9 @@ const Card = ({element,postButton}) => {
     }
     return (
         <PostCardWrapper data-id={element.id}>
-                <img src={element.image} className="post__img"></img>
+                <img src={element.image} className="post__img" alt='post-img'></img>
                 <h4 className="post__title">{element.title}</h4>
                 <p className="post__author">By <span>{element.by}</span></p>
-                <span className="post__date">{element.title}</span>
                 <Button handleOnClick={handleOnClick}>Read more</Button>
                 {postButton()}
         </PostCardWrapper>
