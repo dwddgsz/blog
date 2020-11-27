@@ -4,6 +4,8 @@ import Title from './templates/Title';
 import PostsList from './templates/PostsList';
 import {db} from '../firebase'
 import {firebaseLooper} from '../firebase/firebaseLooper'
+import Button from './templates/Button'
+
 
 
 
@@ -96,6 +98,24 @@ class Home extends React.Component {
             behavior: 'smooth'
         });
     }
+
+    postButton = () => {
+        if (this.props.isSignedIn && this.props.userData.role===1) {
+        return <Button handleOnClick={(e)=>{
+            const id = e.target.parentElement.getAttribute('data-id');
+            db
+            .collection('posts')
+            .doc(id)
+            .delete()
+            .then(()=>{
+                window.location.reload(false);
+            })
+        }}>Delete</Button>}
+        else {
+            return null;
+        }
+    }
+
     render() {
         return (
         <HomeWrapper>
@@ -106,7 +126,7 @@ class Home extends React.Component {
         </button>
     </header>
         <Title>Posts</Title>
-        <PostsList convertedData={this.state.convertedData}/>
+        <PostsList convertedData={this.state.convertedData} postButton={this.postButton}/>
         </HomeWrapper>
     )
         }

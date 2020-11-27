@@ -75,7 +75,8 @@ class App extends React.Component {
                         }
                     }}/>
                     <Route path="/sign" component={isSignedIn?AlreadySignedIn:Sign}/>
-                    <Route path="/" exact component={Home}/>
+                 <Route path="/" render={()=>{
+                            return <Home isSignedIn={isSignedIn} userData={userData}/>}}/>
                     <Route component={PageNotFound}/>
                 </Switch>
                 <Footer/>
