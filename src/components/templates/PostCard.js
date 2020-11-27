@@ -39,7 +39,7 @@ width: 300px;
 `
 
 
-const Card = ({element}) => {
+const Card = ({element,postButton}) => {
     const handleOnClick = (e) =>{
         const id = e.target.parentElement.getAttribute('data-id');
         history.push(`/details/${id}`)
@@ -51,6 +51,7 @@ const Card = ({element}) => {
                 <p className="post__author">By <span>{element.by}</span></p>
                 <span className="post__date">{element.title}</span>
                 <Button handleOnClick={handleOnClick}>Read more</Button>
+                {postButton()}
         </PostCardWrapper>
     )
 }

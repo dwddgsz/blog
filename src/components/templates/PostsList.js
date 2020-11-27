@@ -10,15 +10,16 @@ max-width: 1200px;
     justify-content: center;
 `
 
-const PostsList = ({convertedData}) => {
+const PostsList = ({convertedData,postButton},props) => {
     
     const renderPosts = () => {
+        console.log(props);
     if (Object.keys(convertedData).length === 0 && convertedData.constructor === Object){
         return;
     }
       else {  
         return convertedData.map((element)=>{
-        return <PostCard key={element.id} element={element}/>
+        return <PostCard key={element.id} element={element} postButton={postButton}/>
         })}}
 
     return (
