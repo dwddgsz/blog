@@ -47,7 +47,7 @@ class Details extends React.Component {
         const {item} = this.state;
     return (
         <DetailsWrapper>
-            <HeroSmall />
+            <HeroSmall image={item.image}/>
             <Title>{item.title}</Title>
             <div class="details__text-container">
                 <p className="details__author">By <span>{item.by}</span></p>
