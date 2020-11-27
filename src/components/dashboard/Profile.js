@@ -51,7 +51,7 @@ class Profile extends React.Component {
 
     render() {
         return (
-    <Dashboard>
+    <Dashboard  userData={this.props.userData}>
         <ProfileWrapper onSubmit={this.handleOnSubmit}>
         <div className="dashboard__field">
                     <label htmlFor="nickname">Nickname</label>

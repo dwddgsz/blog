@@ -18,11 +18,11 @@ h3 {
 }
 `
 
-const Start = () => {
+const Start = ({isSignedIn,userData}) => {
     return (
-        <Dashboard>
+        <Dashboard userData={userData}>
         <StartWrapper>
-        <h3>Welcome <span> User</span></h3>
+    <h3>Welcome <span> {userData.nickname}</span></h3>
         </StartWrapper> 
         </Dashboard>
     )

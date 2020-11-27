@@ -37,7 +37,7 @@ const Dashbord = (props) => {
         <ul className="dashboard__items">
             <li className="dashboard__item"><Link className="dashboard__link" to="/dashboard-profile">Profile</Link></li>
             <li className="dashboard__item"><Link className="dashboard__link" to="/dashboard-create">Create</Link></li>
-            <li className="dashboard__item"><Link className="dashboard__link" to="/dashboard-accept">Accept</Link></li>
+            {props.userData.role === 1 ? (<li className="dashboard__item"><Link className="dashboard__link" to="/dashboard-accept">Accept</Link></li>) : null}
         </ul>
         {props.children}
         </DashboardWrapper>

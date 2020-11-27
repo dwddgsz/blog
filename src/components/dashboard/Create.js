@@ -52,7 +52,7 @@ class Create extends React.Component {
 
     render() {
         return (
-    <Dashboard>
+    <Dashboard  userData={this.props.userData}>
         <CreateWrapper onSubmit={this.handleOnSubmit}>
         <div className="dashboard__field">
                     <label htmlFor="title">Title</label>

@@ -27,7 +27,7 @@ class Accept extends React.Component {
 
     render() {
     return (
-        <Dashboard>
+        <Dashboard userData={this.props.userData}>
             <PostsList convertedData={this.state.convertedData}>
             </PostsList>
         </Dashboard>
