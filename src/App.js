@@ -15,34 +15,65 @@ import AlreadySignedIn from './components/errors/AlreadySignedIn';
 import PermissionRequired from './components/errors/PermissionRequired';
 import PageNotFound from './components/errors/PageNotFound';
 import RecordNotFound from './components/errors/RecordNotFound';
-import {auth} from './firebase'
+import {auth,db} from './firebase'
 
 class App extends React.Component {
-    
-    componentDidMount() {
-        auth.onAuthStateChanged((user)=>{
-            if(user) {
-                this.setState({isSignedIn:true,user})
-            }else {
-                this.setState({isSignedIn:false})
-            }
-        })
-    }
     state = {
         isSignedIn: false,
         userData: null,
     }
+    componentDidMount() {
+        auth.onAuthStateChanged((user)=>{
+            if(user) {
+                db.collection('users').doc(user.uid).get()
+                .then((response)=>{
+                    this.setState({isSignedIn:true,userData:response.data()});
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+
+            }else {
+                this.setState({isSignedIn:false,userData:''})
+            }
+        })
+        
+    }
     render(){
-        let isSignedIn = this.state.isSignedIn;
+        let {isSignedIn,userData} = this.state;
         return (
         <Router history={history}>
-                <Navbar isSignedIn={isSignedIn}/>
+                <Navbar isSignedIn={isSignedIn} userData={userData}/>
                 <Switch>
                     <Route path="/details/:id" component={Details} />
-                    <Route path="/dashboard-profile" component={isSignedIn?Profile:PermissionRequired} />
-                    <Route path="/dashboard-create" component={isSignedIn?Create:PermissionRequired} />
-                    <Route path="/dashboard-accept" component={isSignedIn?Accept:PermissionRequired} />
-                    <Route path="/dashboard" component={isSignedIn?Start:PermissionRequired} />
+                    <Route path="/dashboard-profile" render={()=>{
+                        if (isSignedIn === true) {
+                            return <Profile isSignedIn={isSignedIn} userData={userData}/>
+                        } else {
+                            return <PermissionRequired />
+                        }
+                    }}/>
+                    <Route path="/dashboard-create" render={()=>{
+                        if (isSignedIn === true) {
+                            return <Create isSignedIn={isSignedIn} userData={userData}/>
+                        } else {
+                            return <PermissionRequired />
+                        }
+                    }}/>
+                    <Route path="/dashboard-accept" render={()=>{
+                        if (isSignedIn === true) {
+                            return <Accept isSignedIn={isSignedIn} userData={userData}/>
+                        } else {
+                            return <PermissionRequired />
+                        }
+                    }}/>
+                    <Route path="/dashboard" render={()=>{
+                        if (isSignedIn === true) {
+                            return <Start isSignedIn={isSignedIn} userData={userData}/>
+                        } else {
+                            return <PermissionRequired />
+                        }
+                    }}/>
                     <Route path="/sign" component={isSignedIn?AlreadySignedIn:Sign}/>
                     <Route path="/" exact component={Home}/>
                     <Route component={PageNotFound}/>
