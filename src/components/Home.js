@@ -71,13 +71,39 @@ const HomeWrapper = styled.div`
     transform: rotate(45deg);
     margin-top: 8px;
 }
+}
 
+.sort {
+    display:flex;
+    justify-content:center;
+    width:300px;
+    margin:0 auto;
+    padding:15px 0 60px;
+    &__input {
+        margin-right:15px;
+        border:none;
+        width:220px;
+        border-bottom:2px solid var(--black);
+        &:focus {
+            outline:none;
+            opacity:.5;
+        }
+    }
+
+    &__button {
+        border:none;
+        font-size:17px;
+        background-color:transparent;
+        cursor:pointer;
+    }
 }
 `
 
 class Home extends React.Component {
     state = {
-        convertedData:{}
+        convertedData:{},
+        fullData:{},
+        sort:'',
     }
 
     componentDidMount() {
@@ -88,9 +114,12 @@ class Home extends React.Component {
         .then((snapshot)=>{
             const convertedData = firebaseLooper(snapshot);
             this.setState({convertedData});
+            this.setState({fullData:convertedData});
         })
     }
 
+    
+    
     scrollToPosts = () => {
         window.scrollTo({
             top: window.innerHeight,
@@ -116,20 +145,33 @@ class Home extends React.Component {
         }
     }
 
+    sortData = (e)=>{
+        e.preventDefault();
+        this.setState({convertedData:this.state.fullData.filter((e)=>{
+            if (e.title.toUpperCase().includes(this.state.sort.toUpperCase()) || e.content.toUpperCase().includes(this.state.sort.toUpperCase())) {
+                return e
+            }
+        })});
+        
+        };
+
     render() {
         return (
         <HomeWrapper>
         <header className="hero">
-        <h2 className="hero__title">Fear is your best friend</h2>
         <button className="hero__button" onClick={this.scrollToPosts}>
         <div className="hero__arrow"></div>
         </button>
     </header>
         <Title>Posts</Title>
+        <form onSubmit={this.sortData} className="sort">
+        <input className="sort__input" type="text" value={this.state.sort} onChange={(e)=>this.setState({sort:e.target.value})}></input>
+        <button className="sort__button"><span class="fas fa-search"></span></button>
+        </form>
         <PostsList convertedData={this.state.convertedData} postButton={this.postButton}/>
         </HomeWrapper>
     )
         }
 }
 
-export default Home
+export default Home;
