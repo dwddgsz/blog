@@ -3,7 +3,8 @@ import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
 import PostsList from '../templates/PostsList';
 import {db} from '../../firebase';
-import {firebaseLooper} from '../../firebase/firebaseLooper'
+import {firebaseLooper} from '../../firebase/firebaseLooper';
+import Button from '../templates/Button'
 
 
 class Accept extends React.Component {
@@ -25,10 +26,29 @@ class Accept extends React.Component {
         })
     }
 
+    postButton = () => {
+        if (this.props.isSignedIn && this.props.userData.role===1) {
+        return <Button handleOnClick={(e)=>{
+            const id = e.target.parentElement.getAttribute('data-id');
+            db
+            .collection('posts')
+            .doc(id)
+            .update({
+                accepted:true,
+            })
+            .then(()=>{
+                window.location.reload(false);
+            })
+        }}>Accept</Button>}
+        else {
+            return null;
+        }
+    }
+
     render() {
     return (
         <Dashboard userData={this.props.userData}>
-            <PostsList convertedData={this.state.convertedData}>
+            <PostsList convertedData={this.state.convertedData} postButton={this.postButton}>
             </PostsList>
         </Dashboard>
     )
