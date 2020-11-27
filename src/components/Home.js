@@ -87,9 +87,6 @@ class Home extends React.Component {
             const convertedData = firebaseLooper(snapshot);
             this.setState({convertedData});
         })
-        .then(()=>{
-            console.log(this.state);
-        })
     }
 
     scrollToPosts = () => {
