@@ -2,7 +2,7 @@ import React from 'react';
 import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
 import Button from '../templates/Button';
-
+import {db} from '../../firebase';
 
 const ProfileWrapper = styled.form`
 display:flex;
@@ -31,7 +31,21 @@ class Profile extends React.Component {
         nickname:'',
         email:'',
         password:'',
+    },
+    message:'',
     }
+
+    componentDidMount() {
+        this.setState((prevState)=>{
+            return {
+                formData: {
+                    ...prevState,
+                    nickname:this.props.userData.nickname,
+                    email:this.props.userData.email,
+                    password: this.props.userData.password,
+                }
+            }
+        })
     }
 
     handleOnChange = (e) =>{
@@ -39,13 +53,29 @@ class Profile extends React.Component {
             return {formData: {
                 ...prevState.formData,
                 [e.target.name]: e.target.value,
-            }}
+            },
+            message:'',}
         })
     }
 
     handleOnSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        if (this.state.formData.nickname==='' || this.state.formData.email==='' || this.state.formData.password==='') {
+            this.setState({message:'Field cannot be empty'});
+            return;
+        }
+        db
+        .collection('users')
+        .doc(this.props.userData.id)
+        .update({
+            email: this.state.formData.email,
+            password: this.state.formData.password,
+            nickname: this.state.formData.nickname,
+        
+        })
+        .then(()=>{
+            this.setState({message:'Succes!'})
+        })
 
     }
 
@@ -68,6 +98,7 @@ class Profile extends React.Component {
                     <input type="password" id="signInPassword" name="password" value={this.state.formData.password} onChange={this.handleOnChange}></input>
     <p></p>
                 </div>
+        <p className="message">{this.state.message}</p>
         <Button size="large">Submit</Button>
 
 
