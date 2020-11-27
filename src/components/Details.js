@@ -6,10 +6,10 @@ import {db} from '../firebase/'
 
 const DetailsWrapper = styled.article`
 .details{
-
 &__text-container {
     margin:0 auto;
     max-width:1200px;
+    min-height:60vh;
 }
 &__author {
 padding: 0 10px 30px;
