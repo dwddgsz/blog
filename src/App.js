@@ -1,12 +1,12 @@
 import React from 'react';
 import {Router,Switch,Route} from 'react-router';
 import history from './history/index'
+import {auth,db} from './firebase'
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Details from './components/Details';
 import Footer from './components/Footer';
 import Sign from './components/Sign';
-import styled from 'styled-components';
 import Start from './components/dashboard/Start';
 import Profile from './components/dashboard/Profile'
 import Create from './components/dashboard/Create'
@@ -14,8 +14,6 @@ import Accept from './components/dashboard/Accept'
 import AlreadySignedIn from './components/errors/AlreadySignedIn';
 import PermissionRequired from './components/errors/PermissionRequired';
 import PageNotFound from './components/errors/PageNotFound';
-import RecordNotFound from './components/errors/RecordNotFound';
-import {auth,db} from './firebase'
 
 
 

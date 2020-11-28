@@ -132,8 +132,8 @@ class Login extends React.Component {
     }
 
     handleOnSubmit = (e) => {
-    // SIGNING UP
         e.preventDefault();
+        // SIGNING UP
         if (!this.state.signIn) {
         const regex = /^((?!.*[\s])(?=.*[A-Z])(?=.*\d).{8,15})/
         if (!this.state.formData.password.match(regex) || !this.state.formData.nickname.match(regex)) {
