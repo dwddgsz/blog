@@ -11,7 +11,7 @@
 <img src="designs/others/home-mobile.png" width="350" >
 
 
-#### Mobile:
+#### Desktop:
 <img src="designs/others/home-desktop.png" width="600" >
 
 
