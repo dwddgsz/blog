@@ -14,7 +14,7 @@ const PostsList = ({convertedData,postButton},props) => {
     
     const renderPosts = () => {
     if (Object.keys(convertedData).length === 0 && convertedData.constructor === Object){
-        return;
+        return null;
     }
       else {  
         return convertedData.map((element)=>{
