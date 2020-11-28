@@ -5,7 +5,13 @@
 ## Views:
 
 ### Home:
+
+
+#### Mobile:
 <img src="designs/others/home-mobile.png" width="350" >
+
+
+#### Mobile:
 <img src="designs/others/home-desktop.png" width="600" >
 
 
@@ -14,13 +20,27 @@
 
 
 ### Dashboard:
+
+
+#### Dashboard Home View:
 <img src="designs/dash/dash-home.png" width="500">
+
+
+#### Dashboard Profile:
 <img src="designs/dash/profile.png" width="500">
+
+
+#### Dashboard Create:
 <img src="designs/dash/create.png" width="500" >
+
+
+#### Dashboard Accept:
 <img src="designs/dash/accept.png" width="500">
 
 
 ### Errors:
+
+
 <img src="designs/errors/not-found.png" width="500" >
 <img src="designs/errors/record-not-found.png" width="500" >
 <img src="designs/errors/permission.png" width="500" >
