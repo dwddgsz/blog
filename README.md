@@ -1,6 +1,6 @@
 # Movies Blog
 
-
+[live](https://musing-yalow-040969.netlify.app/)
 
 ## Views:
 
