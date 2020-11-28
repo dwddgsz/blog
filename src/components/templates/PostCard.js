@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
-import Button from '../templates/Button';
 import history from '../../history'
+import Button from '../templates/Button';
 
 
 const PostCardWrapper =  styled.li`

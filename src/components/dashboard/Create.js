@@ -1,10 +1,10 @@
 import React from 'react';
-import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
-import Button from '../templates/Button';
 import {db} from '../../firebase';
 import firebase from '../../firebase';
 import history from '../../history'
+import Dashboard from '../templates/Dashbord';
+import Button from '../templates/Button';
 
 const CreateWrapper = styled.form`
 display:flex;

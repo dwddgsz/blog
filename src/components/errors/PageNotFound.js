@@ -1,6 +1,6 @@
 import React from 'react'
-import Error from '../templates/Error';
 import history from '../../history'
+import Error from '../templates/Error';
 
 const PageNotFound = () => {
 

@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
+import {db} from '../firebase/'
 import Title from './templates/Title';
 import HeroSmall from './templates/HeroSmall';
-import {db} from '../firebase/'
+import RecordNotFound from './errors/RecordNotFound';
 
 const DetailsWrapper = styled.article`
 .details{
@@ -37,16 +38,15 @@ class Details extends React.Component {
         .then((response)=>{
             this.setState({item:response.data()})
         })
-        .then(()=>{
-            console.log(this.state.item)
-        })
-
     }
 
-    render() {
-        const {item} = this.state;
-    return (
-        <DetailsWrapper>
+    checkForErrors = () => {
+        if (!this.state.item){
+            return <RecordNotFound/>;
+        } else {
+            const {item} = this.state;
+            return (
+<DetailsWrapper>
             <HeroSmall image={item.image}/>
             <Title>{item.title}</Title>
             <div class="details__text-container">
@@ -54,6 +54,15 @@ class Details extends React.Component {
                 <p className="details__description">{item.content}</p>
             </div>
         </DetailsWrapper>
+            )
+        }
+    }
+
+    render() {
+    return (
+        <>
+        {this.checkForErrors()}
+        </>
     )
     }
 }

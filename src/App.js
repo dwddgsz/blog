@@ -31,9 +31,6 @@ class App extends React.Component {
                 .then((response)=>{
                     this.setState({isSignedIn:true,userData:response.data()});
                 })
-                .catch(err=>{
-                    console.log(err);
-                })
 
             }else {
                 this.setState({isSignedIn:false,userData:''})
@@ -78,7 +75,7 @@ class App extends React.Component {
                         }
                     }}/>
                     <Route path="/sign" component={isSignedIn?AlreadySignedIn:Sign}/>
-                 <Route path="/" render={()=>{
+                 <Route path="/" exact render={()=>{
                      return <Home isSignedIn={isSignedIn} userData={userData}/>}}/>
                     <Route component={PageNotFound}/>
                 </Switch>

@@ -1,6 +1,6 @@
 import React from 'react';
-import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
+import Dashboard from '../templates/Dashbord';
 
 
 const StartWrapper = styled.header`

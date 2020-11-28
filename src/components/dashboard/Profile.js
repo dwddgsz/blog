@@ -1,8 +1,8 @@
 import React from 'react';
-import Dashboard from '../templates/Dashbord';
 import styled from 'styled-components';
-import Button from '../templates/Button';
 import {db} from '../../firebase';
+import Dashboard from '../templates/Dashbord';
+import Button from '../templates/Button';
 
 const ProfileWrapper = styled.form`
 display:flex;
@@ -29,8 +29,6 @@ class Profile extends React.Component {
     state = {
         formData: {
         nickname:'',
-        email:'',
-        password:'',
     },
     message:'',
     }
@@ -41,8 +39,6 @@ class Profile extends React.Component {
                 formData: {
                     ...prevState,
                     nickname:this.props.userData.nickname,
-                    email:this.props.userData.email,
-                    password: this.props.userData.password,
                 }
             }
         })
@@ -60,7 +56,7 @@ class Profile extends React.Component {
 
     handleOnSubmit = (e) => {
         e.preventDefault();
-        if (this.state.formData.nickname==='' || this.state.formData.email==='' || this.state.formData.password==='') {
+        if (this.state.formData.nickname==='') {
             this.setState({message:'Field cannot be empty'});
             return;
         }
@@ -68,8 +64,6 @@ class Profile extends React.Component {
         .collection('users')
         .doc(this.props.userData.id)
         .update({
-            email: this.state.formData.email,
-            password: this.state.formData.password,
             nickname: this.state.formData.nickname,
         
         })
@@ -86,18 +80,7 @@ class Profile extends React.Component {
         <div className="dashboard__field">
                     <label htmlFor="nickname">Nickname</label>
                     <input type="text" id="nickname" name="nickname" value={this.state.formData.nickname} onChange={this.handleOnChange}></input>
-                        <p></p>
         </div>
-        <div className="dashboard__field">
-                    <label htmlFor="signInEmail">Email</label>
-                    <input type="email" id="signInEmail" name="email" value={this.state.formData.email} onChange={this.handleOnChange}></input>
-                        <p></p>
-                </div> 
-                <div className="dashboard__field">
-                    <label htmlFor="signInPassword">Password</label>
-                    <input type="password" id="signInPassword" name="password" value={this.state.formData.password} onChange={this.handleOnChange}></input>
-    <p></p>
-                </div>
         <p className="message">{this.state.message}</p>
         <Button size="large">Submit</Button>
 

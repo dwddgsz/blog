@@ -1,8 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 import Title from '../templates/Title';
 import HeroSmall from '../templates/HeroSmall';
-import {Link} from 'react-router-dom';
-import styled from 'styled-components';
 
 
 const DashboardWrapper = styled.div`

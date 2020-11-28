@@ -1,8 +1,8 @@
 import React from 'react'
+import styled from 'styled-components';
 import Button from '../templates/Button';
 import Title from '../templates/Title';
 import HeroSmall from '../templates/HeroSmall';
-import styled from 'styled-components';
 
 
 const ErrorWrapper = styled.section`

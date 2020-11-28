@@ -1,10 +1,11 @@
 import React from 'react';
 import styled,{keyframes} from 'styled-components';
-import Title from './templates/Title';
-import PostsList from './templates/PostsList';
 import {db} from '../firebase'
 import {firebaseLooper} from '../firebase/firebaseLooper'
 import Button from './templates/Button'
+import Title from './templates/Title';
+import PostsList from './templates/PostsList';
+
 
 
 

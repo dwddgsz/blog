@@ -1,10 +1,9 @@
 import React from 'react';
-import Dashboard from '../templates/Dashbord';
-import styled from 'styled-components';
-import PostsList from '../templates/PostsList';
 import {db} from '../../firebase';
 import {firebaseLooper} from '../../firebase/firebaseLooper';
+import Dashboard from '../templates/Dashbord';
 import Button from '../templates/Button'
+import PostsList from '../templates/PostsList';
 
 
 class Accept extends React.Component {
@@ -20,9 +19,6 @@ class Accept extends React.Component {
         .then((snapshot)=>{
             const convertedData = firebaseLooper(snapshot);
             this.setState({convertedData});
-        })
-        .then(()=>{
-            console.log(this.state);
         })
     }
 

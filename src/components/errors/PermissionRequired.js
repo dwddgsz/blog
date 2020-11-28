@@ -1,6 +1,6 @@
 import React from 'react'
-import Error from '../templates/Error';
 import history from '../../history'
+import Error from '../templates/Error';
 
 const PermissionRequired = () => {
     return <Error title="You Need To Be Signed In" buttonText="Sign In" handleOnClick={()=>{history.push('/sign')}}/>
